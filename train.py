@@ -73,8 +73,8 @@ def main():
     optimizer = torch.optim.Adam(model.classifier.parameters(), lr=learning_rate)
     
     # 加载数据集
-    train_dataset = GetData('./train', 224, 'train')
-    test_dataset = GetData('./train', 224, 'test')
+    train_dataset = GetData('./data', 224, 'train')
+    test_dataset = GetData('./data', 224, 'test')
 
     train_loader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=test_batch_size, shuffle=True)
