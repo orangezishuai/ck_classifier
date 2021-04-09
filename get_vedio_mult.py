@@ -4,12 +4,12 @@ import numpy as np
 
 def OnMouseAction(event,x,y,flags,param):
     global coor_x, coor_y, coor, num_list_pro, num_list
-    global num_point
+    global counter
     if event == cv2.EVENT_LBUTTONDOWN:
-        num_point = num_point + 1
-        if(num_point % 2 == 0 and num_point>3):
+        counter = counter + 1                               # 每点击一次计数器+1
+        if(counter % 2 == 0):                               # 每两个点更新一下pro值        
             num_list_pro += 2
-            num_list.append(num_list_pro)
+            num_list.append(num_list_pro)                   #得到列表 [1,3,5]
         coor_x ,coor_y = x ,y
         coor_m = [coor_x,coor_y]
         coor = np.row_stack((coor,coor_m))
@@ -51,9 +51,9 @@ def output_choose_vedio(fourcc, fps, coor, frame, num_i):
 coor_x,coor_y = -1, 0                   # 初始值并无意义,只是先定义一下供后面的global赋值改变用于全局变量
 coor = np.array([[1,1]])
 
-num_point = 0                           # 计数功能
-num_list_pro = 1                        # 计数功能
-num_list = [1,]                         # 将要画的框记录下来
+counter = 0                             # 计数功能
+num_list_pro = -1                        # 计数功能
+num_list = []                         # 将要画的框记录下来
 
 
 
