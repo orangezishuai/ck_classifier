@@ -23,6 +23,7 @@ class GetData(Dataset):
 
         # image, label 划分
         self.images, self.labels = self.load_csv('images.csv')          # csv文件存在 直接读取
+        # 正常测试集划分
         if mode == 'train':                                             # 80%划分为训练集                   
             self.images = self.images[:int(0.8 * len(self.images))]
             self.labels = self.labels[:int(0.8 * len(self.labels))]
@@ -30,6 +31,15 @@ class GetData(Dataset):
         else:                                                           # 剩余20%划分为测试集
             self.images = self.images[int(0.8 * len(self.images)):]
             self.labels = self.labels[int(0.8 * len(self.labels)):]
+
+        # 非正常测试集划分
+        # if mode == 'train':                                             # 80%划分为训练集                   
+            # self.images = self.images[:0]
+            # self.labels = self.labels[:0]
+        
+        # else:                                                           # 剩余20%划分为测试集
+            # self.images = self.images[:int(len(self.images))]
+            # self.labels = self.labels[:int(len(self.labels))]
 
     def __len__(self):
         return len(self.images)

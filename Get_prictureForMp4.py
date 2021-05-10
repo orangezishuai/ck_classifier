@@ -59,7 +59,7 @@ coor_x,coor_y, emptyImage = -1, -1, 0                   # 初始值并无意义,
 coor = np.array([[1,1]])
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')                        # 使用XVID编码器
-camera = cv2.VideoCapture('/home/cheng/Desktop/12.mp4')     # 从文件读取视频,Todo:只需要修改成自己的视频路径即可进行测试
+camera = cv2.VideoCapture('/home/cheng/Downloads/test_data/8m/2021-01-28-00-29-57_rgb_image_raw.mp4')     # 从文件读取视频,Todo:只需要修改成自己的视频路径即可进行测试
 fps = camera.get(cv2.CAP_PROP_FPS)                              # 获取视频帧率
 grabbed, img = camera.read()                                    # 逐帧采集视频流
 video_info(camera, fps)

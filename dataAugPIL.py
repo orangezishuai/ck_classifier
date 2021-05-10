@@ -150,13 +150,13 @@ def random_run(probability, func, useimage):
 
 
 def main():
-    imageDir = "./pricture/"            #要改变的图片的路径文件夹
-    saveDir = "./save/"                 #要保存的图片的路径文件夹
+    imageDir = "./onebag/occupied"            #要改变的图片的路径文件夹
+    saveDir =  "./save/occupied/"                  #要保存的图片的路径文件夹
     for name in os.listdir(imageDir):
         i=0
-        for i in range(10):
+        for i in range(1):
             i = i+1
-            saveName = str(name[:-4]) + str(i) +".jpg"
+            saveName = str(name[:-4]) + str(i) +"f.jpg"
             img = Image.open(os.path.join(imageDir, name))
             saveImage = random_run(60, flip, img)                               # 翻转
             saveImage = random_run(70, color, saveImage)                        # 色彩变化
@@ -169,6 +169,7 @@ def main():
             # saveImage = random_run(90, gauss_noise, saveImage)
             print(type(saveImage))
             if saveImage != None:
+                saveImage = saveImage.convert('RGB')
                 saveImage.save(os.path.join(saveDir, saveName))
             else:
                 pass

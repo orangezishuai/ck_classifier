@@ -58,7 +58,7 @@ num_list = []                           # 将得到的num_i 存入列表，最�
 
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')                        # 使用XVID编码器
-camera = cv2.VideoCapture('/home/cheng/Desktop/12.mp4')         # 从文件读取视频,Todo:只需要修改成自己的视频路径即可进行测试
+camera = cv2.VideoCapture('/home/cheng/Downloads/data.mp4')         # 从文件读取视频,Todo:只需要修改成自己的视频路径即可进行测试
 fps = camera.get(cv2.CAP_PROP_FPS)                              # 获取视频帧率
 grabbed, img = camera.read()                                    # 逐帧采集视频流
 video_info(camera, fps)
