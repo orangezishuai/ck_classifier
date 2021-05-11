@@ -36,10 +36,10 @@ def get_chosse_action(img, OnMouseAction):
     cv2.destroyAllWindows()                               # 关闭页面
 
 
-def output_choose_vedio(fourcc, fps, coor, frame, num_i):
-    Width_choose = coor[num_i+1,0]-coor[num_i,0]
-    Height_choose = coor[num_i+1, 1] - coor[num_i, 1]
-    out = cv2.VideoWriter('output_test%d.avi' %int(num_i / 2),fourcc, fps, (Width_choose,Height_choose))
+def output_choose_vedio(fourcc, fps, coor, frame, num_i, out):
+    # Width_choose = coor[num_i+1,0]-coor[num_i,0]
+    # Height_choose = coor[num_i+1, 1] - coor[num_i, 1]
+    # out = cv2.VideoWriter('output_test%d.avi' %int(num_i / 2),fourcc, fps, (Width_choose,Height_choose))
     Video_choose = frame[coor[num_i,1]:coor[num_i+1,1],coor[num_i,0]:coor[num_i+1,0]]
     out.write(Video_choose)
     cv2.imshow('Video_choose %d' %int(num_i / 2), Video_choose)
@@ -54,6 +54,7 @@ coor = np.array([[1,1]])
 counter = 0                             # 计数器
 num_list_pro = -1                       # 生成每个num_i,每两个点生成
 num_list = []                           # 将得到的num_i 存入列表，最后的形式[1,3,5,7·····]
+out_list = []
 
 
 
@@ -66,13 +67,21 @@ get_chosse_action(img, OnMouseAction)
 
 
 def main():
+    for value in num_list:
+        Width_choose = coor[value+1,0]-coor[value,0]
+        Height_choose = coor[value+1, 1] - coor[value, 1]
+        out = cv2.VideoWriter('output_test%d.avi' %int(value / 2),fourcc, fps, (Width_choose,Height_choose))
+        print(out)
+        out_list.append(out)
+
     while True:
         grabbed, frame = camera.read()                                                      # 逐帧采集视频流，如果读取结束则退出
         if not grabbed:
             break
         
         for value in num_list:
-            output_choose_vedio(fourcc, fps, coor, frame, value)
+            out = out_list[int(value / 2)]
+            output_choose_vedio(fourcc, fps, coor, frame, value, out)
                                                                              
 
         cv2.imshow('video', frame)                                                          # 显示采集到的视频流
