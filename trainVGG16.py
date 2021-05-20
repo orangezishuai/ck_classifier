@@ -19,7 +19,8 @@ def set_parameter_requires_grad(model, feature_extracting):
 class VGG16net(nn.Module):
     def __init__(self, feature_extract = True, num_class = 2):
         super(VGG16net, self).__init__()
-        model = models.vgg16(pretrained = True)
+        model = models.vgg16(pretrained = False)
+        # model = models.vgg16(pretrained = True)
         self.features = model.features
         set_parameter_requires_grad(self.features, feature_extract)
         self.avgpool = model.avgpool

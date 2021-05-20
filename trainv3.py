@@ -34,7 +34,7 @@ def main():
 
     # 关键参数设置
     learning_rate=0.001
-    num_epochs = 50
+    num_epochs = 30
     train_batch_size = 16
     test_batch_size = 16
 
@@ -108,7 +108,12 @@ def main():
             print('Test Accuracy  {} %'.format(100*(correct/total)))
 
     # print(model.state_dict())
-    torch.save(obj = model.state_dict(), f='model/modelv3_large.pth')
+
+    # 保存整个模型
+    torch.save(model, 'model/modelv3_large_all.pth')
+
+    # 只保存权重
+    # torch.save(obj = model.state_dict(), f='model/modelv3_large.pth')
     # 训练结束后绘图
     plt_image(epochs, evaloss, 'loss', 'Epochs', 'EvaLoss')
     plt_image(epochs, acc, 'ACC', 'Epochs', 'EvaAcc' )

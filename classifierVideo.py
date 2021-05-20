@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from PIL import Image
 from torchvision import transforms
-from train import VGG16net
+from trainv3 import VGG16net
 import time
 
 

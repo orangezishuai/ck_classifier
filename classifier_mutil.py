@@ -4,12 +4,14 @@ from torchvision import transforms
 from trainVGG16 import VGG16net
 import sys
 sys.path.append('mbv3')
-from mobilenetv3 import mobilenetv3_small, mobilenetv3_large
+from mobilenetv3 import mobilenetv3_small
 import time
+from getdata import GetData
+from torch.utils.data import DataLoader
 
 name2label = {'empty': 0, 'occupied': 1}
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = torch.device('cpu')
+device = torch.device('cuda')
 def image_transforms(image_path):
     resize = 224
     tf = transforms.Compose([                                               # 常用的数据变换器
@@ -26,27 +28,32 @@ def image_transforms(image_path):
     return tf(image_path)
 
 
-def prediect(img_path):
+test_batch_size = 16
+test_dataset = GetData('./onebag', 224, 'test')
+test_loader = DataLoader(test_dataset, batch_size=test_batch_size, shuffle=True)
 
-    # 直接加载模型的方式
-    # model = torch.load('/home/cheng/git/new_parking/model/modelv3_large_all.pth', map_location=torch.device('cpu'))
-
-    # 加载权重的方式
-    model = mobilenetv3_large(num_classes=2).to(device)
-    # model = VGG16net().to(device)
-    model.load_state_dict(torch.load('model/modelv3_large.pth'))
+def prediect():
+    # model = mobilenetv3_small(num_classes=2).to(device)
+    model = VGG16net().to(device)
+    model.load_state_dict(torch.load('model/model.pth'))
     model.eval()
     # net = net.to(device)
     with torch.no_grad():
-        img = image_transforms(img_path)
-        img = img.unsqueeze(0)
-        img_ = img.to(device)
-        start = time.time()
-        outputs = model(img_)
-        _, predicted = torch.max(outputs, 1)
-        predicted_number = predicted[0].item()
-        end = time.time()
-        print('this picture maybe :',list(name2label.keys())[list(name2label.values()).index(predicted_number)])
-        print('FPS:', 1/(end-start))
+        correct = 0
+        total = 0
+        for images, labels in test_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            start = time.time()
+            output = model(images)
+            _, predicted = torch.max(output.data, 1)
+            print(predicted)
+            end = time.time()
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+        acc = 100*(correct/total)
+        print('Test Accuracy  {} %'.format(100*(correct/total)))
+
+
 if __name__ == '__main__':
-    prediect('/home/cheng/Pictures/1.png')
+    prediect()
